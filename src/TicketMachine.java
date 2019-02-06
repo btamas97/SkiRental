@@ -44,7 +44,9 @@ public class TicketMachine {
         testdate.set(2019,2,9);
         return testdate;
     } */
-
+    public boolean isOverdue(Ticket ticket){
+        return countRentedDays(ticket.getStartingDate(),ticket.getEndingDate())>ticket.getRentExpiryDays();
+    }
     public void stopRent(RentalBox[] boxes){
         System.out.print("Please enter your ticket ID: ");
         String ticketID = scanner.nextLine();
@@ -52,7 +54,7 @@ public class TicketMachine {
         for (Ticket ticket: OpenTickets){
             if(ticket.getTicketID().equalsIgnoreCase(ticketID)){
                 ticket.setEndingDate();
-                if(countRentedDays(ticket.getStartingDate(),ticket.getEndingDate())>3){
+                if(isOverdue(ticket)){           //examination put to a separated method
                     System.out.println("Your rent is overdue! You have to pay an additional 50$ fee.");
                     scanner.nextLine();
                 }
