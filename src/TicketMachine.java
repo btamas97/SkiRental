@@ -24,16 +24,18 @@ public class TicketMachine {
            OpenTickets.add(ticket);
            System.out.println("To proceed, please insert 3$");
            scanner.nextLine();
-           System.out.println("Your Ticket ID is : \t"+ ticket.getTicketID());
-           System.out.println("Box number: \t\t\t"+ ticket.getBoxID());
-           System.out.println("Start of rent: \t\t\t" + ticket.getStartingDate().getTime());
-           System.out.println("-----------------------------------------------------------------------------");
+           printTicket(ticket.getTicketID(),ticket.getBoxID(),ticket.getStartingDate()); //put ticket details into separate method
        }else {
            System.out.println("Sorry, we are out of boxes. Please check back later!");
-           System.out.println("-----------------------------------------------------------------------------");
+           System.out.println(Constants.SEPARATOR);
        }
     }
-
+    private void printTicket(String ticketID, int boxID, Calendar startingDate){
+        System.out.println("Your Ticket ID is : \t"+ ticketID);
+        System.out.println("Box number: \t\t\t"+ boxID);
+        System.out.println("Start of rent: \t\t\t" + startingDate.getTime());
+        System.out.println(Constants.SEPARATOR);  //used to copy the same string of lines to 4 parts. Using constants instead.
+    }
     private int countRentedDays(Calendar start, Calendar end){
       return  (int)(ChronoUnit.DAYS.between(start.toInstant(), end.toInstant()));
     }
@@ -61,7 +63,7 @@ public class TicketMachine {
                 }
                 System.out.println("End of rent: "+ ticket.getEndingDate().getTime());
                 System.out.println("Thank you for choosing our rental services.");
-                System.out.println("-----------------------------------------------------------------------------");
+                System.out.println(Constants.SEPARATOR);
                 takenBoxes--;
                 OpenTickets.remove(ticket);
                 ticketFound = true;
@@ -70,7 +72,7 @@ public class TicketMachine {
         }
         if (!ticketFound){
             System.out.println("Sorry, there's no such ticket ID!");
-            System.out.println("-----------------------------------------------------------------------------");
+            System.out.println(Constants.SEPARATOR);
         }
     }
 }

@@ -1,13 +1,13 @@
 import java.util.Scanner;
 
 public class Store {
-    private int numberOfBoxes = 50;
     private Scanner scanner = new Scanner(System.in);
     private String userInput = "";
     private RentalBox[] boxes = initializeBoxes();
     private TicketMachine ticketMachine = new TicketMachine();
 
     private RentalBox[] initializeBoxes(){
+        int numberOfBoxes = 50;
         RentalBox[] boxes = new RentalBox[numberOfBoxes];
         for (int i = 0; i< boxes.length; i++){
             boxes[i] = new RentalBox();

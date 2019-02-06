@@ -3,7 +3,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class RentalBox {
     private boolean isFree;
     private static final AtomicInteger count = new AtomicInteger(0);
-    private int boxNumber = 0;
+    private int boxNumber;
 
     public RentalBox(){
         isFree = true;
