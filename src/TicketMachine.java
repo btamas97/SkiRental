@@ -22,7 +22,7 @@ public class TicketMachine {
            ticket.setTicketID();
            ticket.setStartingDate();
            OpenTickets.add(ticket);
-           System.out.println("To proceed, please insert 3$");
+           System.out.println("To proceed, please insert "+ ticket.getTicketPrice() +"$");
            scanner.nextLine();
            printTicket(ticket.getTicketID(),ticket.getBoxID(),ticket.getStartingDate()); //put ticket details into separate method
        }else {

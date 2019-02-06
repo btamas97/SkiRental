@@ -1,10 +1,12 @@
+import java.util.concurrent.ConcurrentNavigableMap;
+
 public class Main {
     public static void main(String[] args){
         Store store = new Store();
         while(store.canExit()){
-            System.out.println("Press 'S' to start renting a box, press 'E' to end renting and press 'Q' to quit.");
+            System.out.println(Constants.WELCOME_MESSAGE);
             store.chooseAction();
         }
-        System.out.print("Good Bye!");
+        System.out.print(Constants.GOODBYE_MESSAGE);
     }
 }
