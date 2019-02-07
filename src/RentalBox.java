@@ -5,21 +5,24 @@ public class RentalBox {
     private static final AtomicInteger count = new AtomicInteger(0);
     private int boxNumber;
 
-    public RentalBox(){
+    public RentalBox() {
         isFree = true;
         boxNumber = count.incrementAndGet();
     }
 
-    public int getBoxID(){
+    public int getBoxID() {
         return this.boxNumber;
     }
+
     public void setBoxStatusFree() {
         isFree = true;
     }
-    public void setBoxStatusTaken(){
+
+    public void setBoxStatusTaken() {
         isFree = false;
     }
-    public boolean getBoxStatus(){
-        return  this.isFree;
+
+    public boolean getBoxStatus() {
+        return this.isFree;
     }
 }
