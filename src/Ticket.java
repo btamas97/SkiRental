@@ -6,7 +6,9 @@ public class Ticket {
     private Calendar endingDate;
     private String ticketID;
     private int boxID;
-    private int ticketPrice = 3;
+    private int smaillBoxPrice = 3;
+    private int bigBoxPrice = 5;
+    private int moneyBack = 2;
     private int rentExpiryDays = 3;
 
     public void setTicketID() {
@@ -53,8 +55,13 @@ public class Ticket {
         this.boxID = boxID;
     }
 
-    public int getTicketPrice() {
-        return ticketPrice;
+    public int getTicketPrice(boolean isBigBox) {
+        if(isBigBox) return bigBoxPrice;
+        else return smaillBoxPrice;
+    }
+
+    public int getMoneyBack() {
+        return moneyBack;
     }
 
     public int getRentExpiryDays() {

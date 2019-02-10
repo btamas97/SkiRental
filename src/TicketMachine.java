@@ -9,20 +9,43 @@ public class TicketMachine {
     private int takenBoxes = 0;
 
     public void startRent(RentalBox[] boxes) {
-        if (takenBoxes < 50) {
+        int ticketprice = 0;
+        if (takenBoxes < boxes.length) {
             Ticket ticket = new Ticket();
-            for (RentalBox box : boxes) {
-                if (box.getBoxStatus()) {
-                    box.setBoxStatusTaken();
-                    takenBoxes++;
-                    ticket.setBoxID(box.getBoxID());
-                    break;
+            System.out.println("Choose box size: press 'S' for small and 'B' for big!");
+            switch (scanner.nextLine().toUpperCase()){
+                case "S":
+                    for (RentalBox box : boxes) {
+                    if (box.getBoxStatus()&& !box.getIsBigBox()) {
+                        box.setBoxStatusTaken();
+                        takenBoxes++;
+                        ticket.setBoxID(box.getBoxID());
+                        ticketprice = ticket.getTicketPrice(false);
+                        break;
+                    }
                 }
+//TODO fix this shit later
+            case "B":
+                for (RentalBox box : boxes) {
+                    if (box.getBoxStatus()&& box.getIsBigBox()) {
+                        box.setBoxStatusTaken();
+                        takenBoxes++;
+                        ticket.setBoxID(box.getBoxID());
+                        ticketprice = ticket.getTicketPrice(true);
+                        break;
+                    }
+                }
+                    default:
+                        System.out.println("Your input is wrong!");
+                        break;
             }
+
+
+
             ticket.setTicketID();
             ticket.setStartingDate();
             OpenTickets.add(ticket);
-            System.out.println("To proceed, please insert " + ticket.getTicketPrice() + "$");
+            System.out.println("To proceed, please insert " + ticketprice + "$");
             scanner.nextLine();
             printTicket(ticket.getTicketID(), ticket.getBoxID(), ticket.getStartingDate()); //put ticket details into separate method
         } else {
@@ -50,6 +73,9 @@ public class TicketMachine {
     public boolean isOverdue(Ticket ticket) {
         return countRentedDays(ticket.getStartingDate(), ticket.getEndingDate()) > ticket.getRentExpiryDays();
     }
+    public boolean usedAllDays(Ticket ticket){
+        return countRentedDays(ticket.getStartingDate(), ticket.getEndingDate()) == 3;
+    }
 
     public void stopRent(RentalBox[] boxes) {
         System.out.print("Please enter your ticket ID: ");
@@ -61,6 +87,9 @@ public class TicketMachine {
                 if (isOverdue(ticket)) {           //examination put to a separated method
                     System.out.println("Your rent is overdue! You have to pay an additional 50$ fee.");
                     scanner.nextLine();
+                }
+                if (usedAllDays(ticket)) {           //examination put to a separated method
+                    System.out.println("You used up all 3 days. You get " + ticket.getMoneyBack()+"$ back!");
                 }
                 for (RentalBox box : boxes) {
                     if (ticket.getBoxID() == box.getBoxID()) {

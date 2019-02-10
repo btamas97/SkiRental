@@ -7,10 +7,14 @@ public class Store {
     private TicketMachine ticketMachine = new TicketMachine();
 
     private RentalBox[] initializeBoxes() {
-        int numberOfBoxes = 50;
-        RentalBox[] boxes = new RentalBox[numberOfBoxes];
+        int numberOfBigBoxes = 50;
+        int numberOfSmallBoxes = 25;
+        RentalBox[] boxes = new RentalBox[numberOfSmallBoxes+numberOfBigBoxes];
         for (int i = 0; i < boxes.length; i++) {
-            boxes[i] = new RentalBox();
+            if(numberOfBigBoxes>i)
+                boxes[i] = new RentalBox(true);
+            else
+                boxes[i] = new RentalBox(false);
         }
         return boxes;
     }

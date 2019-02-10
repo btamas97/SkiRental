@@ -4,10 +4,12 @@ public class RentalBox {
     private boolean isFree;
     private static final AtomicInteger count = new AtomicInteger(0);
     private int boxNumber;
+    private boolean isBigBox;
 
-    public RentalBox() {
+    public RentalBox(boolean isBigBox) {
         isFree = true;
         boxNumber = count.incrementAndGet();
+        this.isBigBox = isBigBox;
     }
 
     public int getBoxID() {
@@ -25,4 +27,6 @@ public class RentalBox {
     public boolean getBoxStatus() {
         return this.isFree;
     }
+
+    public boolean getIsBigBox(){return  isBigBox;}
 }
