@@ -7,45 +7,42 @@ public class TicketMachine {
     private ArrayList<Ticket> OpenTickets = new ArrayList<>();
     private Scanner scanner = new Scanner(System.in);
     private int takenBoxes = 0;
+    private int ticketPrice = 0;
 
+    private void rentBox(Ticket ticket, RentalBox[] boxes,boolean isBigBox) {
+        for (RentalBox box : boxes) {
+            if (box.getBoxStatus() && (box.getIsBigBox()==isBigBox)) {
+                box.setBoxStatusTaken();
+                takenBoxes++;
+                ticket.setBoxID(box.getBoxID());
+                ticketPrice = ticket.getTicketPrice(isBigBox);
+                break;
+            }
+        }
+    }
     public void startRent(RentalBox[] boxes) {
-        int ticketprice = 0;
         if (takenBoxes < boxes.length) {
             Ticket ticket = new Ticket();
             System.out.println("Choose box size: press 'S' for small and 'B' for big!");
-            switch (scanner.nextLine().toUpperCase()){
-                case "S":
-                    for (RentalBox box : boxes) {
-                    if (box.getBoxStatus()&& !box.getIsBigBox()) {
-                        box.setBoxStatusTaken();
-                        takenBoxes++;
-                        ticket.setBoxID(box.getBoxID());
-                        ticketprice = ticket.getTicketPrice(false);
+            String input = "";
+            while(!(input.equalsIgnoreCase("S") || input.equalsIgnoreCase("B"))){
+                input  = scanner.nextLine();
+                switch (input.toUpperCase()){
+                    case "S":
+                        rentBox(ticket,boxes,false);
                         break;
-                    }
-                }
-//TODO fix this shit later
-            case "B":
-                for (RentalBox box : boxes) {
-                    if (box.getBoxStatus()&& box.getIsBigBox()) {
-                        box.setBoxStatusTaken();
-                        takenBoxes++;
-                        ticket.setBoxID(box.getBoxID());
-                        ticketprice = ticket.getTicketPrice(true);
+                    case "B":
+                        rentBox(ticket,boxes,true);
                         break;
-                    }
-                }
                     default:
                         System.out.println("Your input is wrong!");
                         break;
+                }
             }
-
-
-
             ticket.setTicketID();
             ticket.setStartingDate();
             OpenTickets.add(ticket);
-            System.out.println("To proceed, please insert " + ticketprice + "$");
+            System.out.println("To proceed, please insert " + ticketPrice + "$");
             scanner.nextLine();
             printTicket(ticket.getTicketID(), ticket.getBoxID(), ticket.getStartingDate()); //put ticket details into separate method
         } else {
@@ -65,16 +62,16 @@ public class TicketMachine {
         return (int) (ChronoUnit.DAYS.between(start.toInstant(), end.toInstant()));
     }
 
-    /*  public Calendar testdate(){
+    private Calendar testDate(){
           Calendar testdate = Calendar.getInstance();
-          testdate.set(2019,2,9);
+          testdate.set(2019,Calendar.FEBRUARY,14);
           return testdate;
-      } */
-    public boolean isOverdue(Ticket ticket) {
+    }
+    private boolean isOverdue(Ticket ticket) {
         return countRentedDays(ticket.getStartingDate(), ticket.getEndingDate()) > ticket.getRentExpiryDays();
     }
-    public boolean usedAllDays(Ticket ticket){
-        return countRentedDays(ticket.getStartingDate(), ticket.getEndingDate()) == 3;
+    private boolean usedAllDays(Ticket ticket){
+        return countRentedDays(ticket.getStartingDate(),ticket.getEndingDate()) == 3;
     }
 
     public void stopRent(RentalBox[] boxes) {
